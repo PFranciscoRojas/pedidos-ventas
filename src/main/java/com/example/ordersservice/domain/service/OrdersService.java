@@ -1,6 +1,7 @@
 package com.example.ordersservice.domain.service;
 
 import com.example.ordersservice.domain.repository.OrdersRepository;
+import com.example.ordersservice.domain.repository.ProductRepository;
 import com.example.ordersservice.exception.OrdersException;
 import com.example.ordersservice.infraestructure.entity.Orders;
 import com.example.ordersservice.infraestructure.entity.OrdersDetail;
@@ -17,6 +18,9 @@ public class OrdersService {
     private OrdersRepository orderRepository;
 
     @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
     private StockService stockService;
 
     public Orders crearPedido(Orders order) throws OrdersException {
@@ -24,18 +28,25 @@ public class OrdersService {
             throw new OrdersException("El ID del cliente es obligatorio");
         }
 
-        // Validación de stock si hay productos asociados
+        // Verifica si hay detalles de la orden y asigna el objeto Orders a cada detalle
         if (order.getOrderDetails() != null && !order.getOrderDetails().isEmpty()) {
             for (OrdersDetail detail : order.getOrderDetails()) {
-                Product product = detail.getProduct();
-                if (!stockService.validarStock(product.getProductId(), detail.getQuantity())) {
-                    throw new OrdersException("Stock insuficiente para el producto con ID: " + product.getProductId());
+                Product product = productRepository.findById(detail.getProduct().getProductId()).orElse(null);
+
+                if (product == null || !stockService.validarStock(product.getProductId(), detail.getQuantity())) {
+                    throw new OrdersException("Stock insuficiente o producto no encontrado para el ID: " + detail.getProduct().getProductId());
                 }
+
+                // Asigna el producto completo al detalle
+                detail.setProduct(product);
+                detail.setPrice(product.getPrice());
+
+                // Asigna la referencia del pedido al detalle
+                detail.setOrder(order);
             }
 
-            // Calcular el totalAmount
             double totalAmount = order.getOrderDetails().stream()
-                    .mapToDouble(detail -> detail.getPrice() * detail.getQuantity())
+                    .mapToDouble(d -> d.getPrice() * d.getQuantity())
                     .sum();
             order.setTotalAmount(totalAmount);
         } else {

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductMapper {
 
-    // Convertir de entidad a DTO
     public ProductDTO toDTO(Product product) {
         if (product == null) {
             return null;
@@ -15,15 +14,14 @@ public class ProductMapper {
 
         ProductDTO dto = new ProductDTO();
         dto.setProductoId(product.getProductId().intValue());
-        dto.setNombre(product.getName());
-        dto.setDescripcion(product.getDescription());
+        dto.setNombre(product.getName() != null ? product.getName() : "Sin Nombre");
+        dto.setDescripcion(product.getDescription() != null ? product.getDescription() : "Sin Descripción");
         dto.setPrecio(product.getPrice());
         dto.setStock(product.getStock());
 
         return dto;
     }
 
-    // Convertir de DTO a entidad
     public Product toEntity(ProductDTO dto) {
         if (dto == null) {
             return null;

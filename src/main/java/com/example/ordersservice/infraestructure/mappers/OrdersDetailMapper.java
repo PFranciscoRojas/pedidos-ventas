@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrdersDetailMapper {
 
-    // Convertir de entidad a DTO
     public OrdersDetailDTO toDTO(OrdersDetail detail) {
         if (detail == null) {
             return null;
@@ -25,21 +24,6 @@ public class OrdersDetailMapper {
         return dto;
     }
 
-    // Convertir de DTO a entidad
-    public OrdersDetail toEntity(OrdersDetailDTO dto) {
-        if (dto == null) {
-            return null;
-        }
-
-        OrdersDetail detail = new OrdersDetail();
-        detail.setDetailId((long) dto.getDetalleId());
-        detail.setQuantity(dto.getCantidad());
-        detail.setPrice(dto.getPrecio());
-
-        return detail;
-    }
-
-    // Método que acepta Order y Product para convertir DTO a entidad
     public OrdersDetail toEntity(OrdersDetailDTO dto, Orders order, Product product) {
         if (dto == null || order == null || product == null) {
             return null;

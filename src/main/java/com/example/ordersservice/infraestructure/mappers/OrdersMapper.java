@@ -1,7 +1,12 @@
 package com.example.ordersservice.infraestructure.mappers;
 
 import com.example.ordersservice.domain.dto.OrdersDTO;
+import com.example.ordersservice.domain.dto.OrdersDetailDTO;
 import com.example.ordersservice.infraestructure.entity.Orders;
+import com.example.ordersservice.infraestructure.entity.OrdersDetail;
+import com.example.ordersservice.infraestructure.entity.Product;
+import com.example.ordersservice.domain.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import java.util.stream.Collectors;
 
@@ -9,6 +14,9 @@ import java.util.stream.Collectors;
 public class OrdersMapper {
 
     private final OrdersDetailMapper orderDetailMapper;
+
+    @Autowired
+    private ProductRepository productRepository;
 
     // Constructor para inyectar el OrderDetailMapper
     public OrdersMapper(OrdersDetailMapper orderDetailMapper) {
@@ -51,7 +59,10 @@ public class OrdersMapper {
 
         // Convertir cada detalle de la orden de DTO a entidad
         order.setOrderDetails(dto.getDetalles().stream()
-            .map(orderDetailMapper::toEntity)
+            .map(detailDto -> {
+                Product product = productRepository.findById((long) detailDto.getProductoId()).orElse(null);
+                return orderDetailMapper.toEntity(detailDto, order, product);
+            })
             .collect(Collectors.toList()));
 
         return order;

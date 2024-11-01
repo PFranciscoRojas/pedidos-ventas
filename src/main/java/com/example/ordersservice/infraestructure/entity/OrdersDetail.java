@@ -1,10 +1,7 @@
 package com.example.ordersservice.infraestructure.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import jakarta.persistence.*;
 
 @Entity
 public class OrdersDetail {
@@ -12,11 +9,14 @@ public class OrdersDetail {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long detailId;
-    
+
+    @JsonBackReference
     @ManyToOne
+    @JoinColumn(name = "order_id")
     private Orders order;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 
     private int quantity;
