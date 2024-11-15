@@ -4,10 +4,12 @@ public class OrdersDetailDTO {
     private Long detailId;
     private Long orderId;
     private Long productId;
+    private String productName; // Agregado
+    private String productDescription; // Agregado
     private int quantity;
     private double price;
 
-    // Getters and Setters
+    // Getters y Setters
     public Long getDetailId() {
         return detailId;
     }
@@ -30,6 +32,22 @@ public class OrdersDetailDTO {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductDescription() {
+        return productDescription;
+    }
+
+    public void setProductDescription(String productDescription) {
+        this.productDescription = productDescription;
     }
 
     public int getQuantity() {

@@ -17,6 +17,8 @@ public class OrdersDetailMapper {
         dto.setDetailId(detail.getDetailId());
         dto.setOrderId(detail.getOrder().getOrderId());
         dto.setProductId(detail.getProduct().getProductId());
+        dto.setProductName(detail.getProduct().getName()); // Asignar el nombre del producto
+        dto.setProductDescription(detail.getProduct().getDescription()); // Asignar la descripción del producto
         dto.setQuantity(detail.getQuantity());
         dto.setPrice(detail.getPrice());
         return dto;
@@ -39,6 +41,16 @@ public class OrdersDetailMapper {
             detail.setProduct(product);
         }
 
+        return detail;
+    }
+
+    public OrdersDetail toEntity(OrdersDetailDTO dto, Orders order, Product product) {
+        if (dto == null || order == null || product == null) {
+            return null;
+        }
+
+        OrdersDetail detail = toEntity(dto, order);
+        detail.setProduct(product);
         return detail;
     }
 }
