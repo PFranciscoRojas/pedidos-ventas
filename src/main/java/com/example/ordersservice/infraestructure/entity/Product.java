@@ -1,23 +1,21 @@
 package com.example.ordersservice.infraestructure.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "products")
 public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
-    
+
     private String name;
     private String description;
     private double price;
     private int stock;
 
-    // Getters y Setters
+    // Getters and Setters
     public Long getProductId() {
         return productId;
     }
@@ -47,9 +45,6 @@ public class Product {
     }
 
     public void setPrice(double price) {
-        if (price < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo");
-        }
         this.price = price;
     }
 
@@ -58,9 +53,6 @@ public class Product {
     }
 
     public void setStock(int stock) {
-        if (stock < 0) {
-            throw new IllegalArgumentException("El stock no puede ser negativo");
-        }
         this.stock = stock;
     }
 }

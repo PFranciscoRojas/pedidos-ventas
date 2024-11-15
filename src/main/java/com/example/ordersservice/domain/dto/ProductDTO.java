@@ -1,46 +1,43 @@
 package com.example.ordersservice.domain.dto;
 
 public class ProductDTO {
-    private int productoId;
-    private String nombre;
-    private String descripcion;
-    private double precio;
+    private Long productId;
+    private String name;
+    private String description;
+    private double price;
     private int stock;
 
-    // Getters y Setters
-    public int getProductoId() {
-        return productoId;
+    // Getters and Setters
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductoId(int productoId) {
-        this.productoId = productoId;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        if (precio < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo");
-        }
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     public int getStock() {
@@ -48,9 +45,6 @@ public class ProductDTO {
     }
 
     public void setStock(int stock) {
-        if (stock < 0) {
-            throw new IllegalArgumentException("El stock no puede ser negativo");
-        }
         this.stock = stock;
     }
 }

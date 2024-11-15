@@ -2,20 +2,21 @@ package com.example.ordersservice.domain.service;
 
 import com.example.ordersservice.domain.repository.OrdersRepository;
 import com.example.ordersservice.domain.repository.ProductRepository;
-import com.example.ordersservice.exception.OrdersException;
 import com.example.ordersservice.infraestructure.entity.Orders;
 import com.example.ordersservice.infraestructure.entity.OrdersDetail;
 import com.example.ordersservice.infraestructure.entity.Product;
+import com.example.ordersservice.exception.OrdersException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrdersService {
 
     @Autowired
-    private OrdersRepository orderRepository;
+    private OrdersRepository ordersRepository;
 
     @Autowired
     private ProductRepository productRepository;
@@ -23,63 +24,66 @@ public class OrdersService {
     @Autowired
     private StockService stockService;
 
-    public Orders crearPedido(Orders order) throws OrdersException {
+    public Orders createOrder(Orders order) {
         if (order.getCustomerId() == null) {
-            throw new OrdersException("El ID del cliente es obligatorio");
+            throw new OrdersException("Customer ID is required.");
         }
 
-        // Verifica si hay detalles de la orden y asigna el objeto Orders a cada detalle
-        if (order.getOrderDetails() != null && !order.getOrderDetails().isEmpty()) {
-            for (OrdersDetail detail : order.getOrderDetails()) {
-                Product product = productRepository.findById(detail.getProduct().getProductId()).orElse(null);
+        if (order.getOrderDetails() == null || order.getOrderDetails().isEmpty()) {
+            throw new OrdersException("Order must have at least one detail.");
+        }
 
-                if (product == null || !stockService.validarStock(product.getProductId(), detail.getQuantity())) {
-                    throw new OrdersException("Stock insuficiente o producto no encontrado para el ID: " + detail.getProduct().getProductId());
-                }
-
-                // Asigna el producto completo al detalle
-                detail.setProduct(product);
-                detail.setPrice(product.getPrice());
-
-                // Asigna la referencia del pedido al detalle
-                detail.setOrder(order);
+        for (OrdersDetail detail : order.getOrderDetails()) {
+            if (detail.getProduct() == null || detail.getProduct().getProductId() == null) {
+                throw new OrdersException("Product ID is required for order detail.");
             }
 
-            double totalAmount = order.getOrderDetails().stream()
-                    .mapToDouble(d -> d.getPrice() * d.getQuantity())
-                    .sum();
-            order.setTotalAmount(totalAmount);
-        } else {
-            order.setTotalAmount(0);  // Si no hay detalles, el total es 0
+            Product product = productRepository.findById(detail.getProduct().getProductId())
+                    .orElseThrow(() -> new OrdersException("Product not found for ID: " + detail.getProduct().getProductId()));
+
+            if (!stockService.validateStock(product.getProductId(), detail.getQuantity())) {
+                throw new OrdersException("Insufficient stock for product ID: " + product.getProductId());
+            }
+
+            detail.setProduct(product);
+            detail.setPrice(product.getPrice());
+            detail.setOrder(order);
         }
 
-        order.setStatus("pendiente");
-        return orderRepository.save(order);
+        double totalAmount = order.getOrderDetails().stream()
+                .mapToDouble(detail -> detail.getPrice() * detail.getQuantity())
+                .sum();
+
+        order.setTotalAmount(totalAmount);
+        order.setStatus("PENDING");
+
+        return ordersRepository.save(order);
     }
 
-    public Orders obtenerPedido(Long orderId) {
-        return orderRepository.findById(orderId).orElse(null);
+    public Optional<Orders> getOrderById(Long orderId) {
+        return ordersRepository.findById(orderId);
     }
 
-    public List<Orders> listarPedidos(Long customerId, String status) {
+    public List<Orders> listOrders(Long customerId, String status) {
         if (customerId != null) {
-            return orderRepository.findByCustomerId(customerId);
+            return ordersRepository.findByCustomerId(customerId);
         } else if (status != null) {
-            return orderRepository.findByStatus(status);
+            return ordersRepository.findByStatus(status);
         }
-        return (List<Orders>) orderRepository.findAll();
+        return ordersRepository.findAll();
     }
 
-    public Orders actualizarEstadoPedido(Long orderId, String status) {
-        Orders order = obtenerPedido(orderId);
-        if (order != null) {
-            order.setStatus(status);
-            return orderRepository.save(order);
-        }
-        return null;
+    public Orders updateOrderStatus(Long orderId, String status) {
+        Orders order = ordersRepository.findById(orderId)
+                .orElseThrow(() -> new OrdersException("Order not found for ID: " + orderId));
+        order.setStatus(status);
+        return ordersRepository.save(order);
     }
 
-    public void eliminarPedido(Long orderId) {
-        orderRepository.deleteById(orderId);
+    public void deleteOrder(Long orderId) {
+        if (!ordersRepository.existsById(orderId)) {
+            throw new OrdersException("Order not found for ID: " + orderId);
+        }
+        ordersRepository.deleteById(orderId);
     }
 }

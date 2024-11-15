@@ -1,17 +1,17 @@
--- Crear la base de datos
+-- Create the database
 CREATE DATABASE IF NOT EXISTS tabla_pedidosventas;
 USE tabla_pedidosventas;
 
--- Crear tabla Customer
+-- Create table Customer
 CREATE TABLE IF NOT EXISTS customer (
     customer_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100),
-    telefono VARCHAR(20),
-    direccion VARCHAR(255)
+    phone VARCHAR(20),
+    address VARCHAR(255)
 );
 
--- Crear tabla Product
+-- Create table Product
 CREATE TABLE IF NOT EXISTS product (
     product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
@@ -20,17 +20,17 @@ CREATE TABLE IF NOT EXISTS product (
     stock INT NOT NULL CHECK (stock >= 0)
 );
 
--- Crear tabla Orders
+-- Create table Orders
 CREATE TABLE IF NOT EXISTS orders (
     order_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     customer_id BIGINT,
     total_amount DOUBLE NOT NULL,
     status VARCHAR(50),
-    fecha DATE,
+    order_date DATE,
     FOREIGN KEY (customer_id) REFERENCES customer(customer_id) ON DELETE SET NULL
 );
 
--- Crear tabla OrdersDetail
+-- Create table OrdersDetail
 CREATE TABLE IF NOT EXISTS orders_detail (
     detail_id BIGINT AUTO_INCREMENT PRIMARY KEY,
     order_id BIGINT,

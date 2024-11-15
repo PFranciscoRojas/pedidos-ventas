@@ -1,56 +1,50 @@
 package com.example.ordersservice.domain.dto;
 
 public class OrdersDetailDTO {
-    private int detalleId;
-    private int pedidoId;
-    private int productoId;
-    private int cantidad;
-    private double precio;
+    private Long detailId;
+    private Long orderId;
+    private Long productId;
+    private int quantity;
+    private double price;
 
-    // Getters y Setters
-    public int getDetalleId() {
-        return detalleId;
+    // Getters and Setters
+    public Long getDetailId() {
+        return detailId;
     }
 
-    public void setDetalleId(int detalleId) {
-        this.detalleId = detalleId;
+    public void setDetailId(Long detailId) {
+        this.detailId = detailId;
     }
 
-    public int getPedidoId() {
-        return pedidoId;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setPedidoId(int pedidoId) {
-        this.pedidoId = pedidoId;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    public int getProductoId() {
-        return productoId;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductoId(int productoId) {
-        this.productoId = productoId;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 
-    public int getCantidad() {
-        return cantidad;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setCantidad(int cantidad) {
-        if (cantidad <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
-        }
-        this.cantidad = cantidad;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public double getPrecio() {
-        return precio;
+    public double getPrice() {
+        return price;
     }
 
-    public void setPrecio(double precio) {
-        if (precio < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo");
-        }
-        this.precio = precio;
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

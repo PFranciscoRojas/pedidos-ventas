@@ -1,6 +1,5 @@
 package com.example.ordersservice.infraestructure.entity;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -16,13 +15,14 @@ public class Orders {
     private Long customerId;
     private double totalAmount;
     private String status;
-    private Date fecha;
 
-    @JsonManagedReference
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
+    @Temporal(TemporalType.DATE)
+    private Date orderDate;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrdersDetail> orderDetails;
 
-    // Getters y Setters
+    // Getters and Setters
     public Long getOrderId() {
         return orderId;
     }
@@ -55,12 +55,12 @@ public class Orders {
         this.status = status;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
     public List<OrdersDetail> getOrderDetails() {

@@ -1,34 +1,21 @@
 package com.example.ordersservice.infraestructure.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 @Entity
-@Table(name = "customer")
+@Table(name = "customers")
 public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;  
+    private Long customerId;
 
     private String name;
     private String email;
-    private String telefono;  // Propiedad agregada
-    private String direccion; // Propiedad agregada
+    private String phone;
+    private String address;
 
-    public Customer() {}
-
-    public Customer(String name, String email, String telefono, String direccion) {
-        this.name = name;
-        this.email = email;
-        this.telefono = telefono;
-        this.direccion = direccion;
-    }
-
-    // Getters y Setters
+    // Getters and Setters
     public Long getCustomerId() {
         return customerId;
     }
@@ -53,30 +40,19 @@ public class Customer {
         this.email = email;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
-    }
-
-    @Override
-    public String toString() {
-        return "Customer{" +
-                "customerId=" + customerId +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", telefono='" + telefono + '\'' +
-                ", direccion='" + direccion + '\'' +
-                '}';
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

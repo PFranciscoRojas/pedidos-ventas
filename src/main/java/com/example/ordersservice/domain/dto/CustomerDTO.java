@@ -1,18 +1,18 @@
 package com.example.ordersservice.domain.dto;
 
 public class CustomerDTO {
-    private int customerId;
+    private Long customerId;
     private String name;
     private String email;
-    private String telefono;
-    private String direccion;
+    private String phone;
+    private String address;
 
-    // Getters y Setters
-    public int getCustomerId() {
+    // Getters and Setters
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(int customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
@@ -32,19 +32,19 @@ public class CustomerDTO {
         this.email = email;
     }
 
-    public String getTelefono() {
-        return telefono;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

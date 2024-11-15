@@ -1,16 +1,15 @@
 package com.example.ordersservice.infraestructure.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "order_details")
 public class OrdersDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long detailId;
 
-    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "order_id")
     private Orders order;
@@ -22,7 +21,7 @@ public class OrdersDetail {
     private int quantity;
     private double price;
 
-    // Getters y Setters
+    // Getters and Setters
     public Long getDetailId() {
         return detailId;
     }
@@ -53,7 +52,7 @@ public class OrdersDetail {
 
     public void setQuantity(int quantity) {
         if (quantity <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
+            throw new IllegalArgumentException("Quantity must be greater than zero.");
         }
         this.quantity = quantity;
     }
@@ -64,7 +63,7 @@ public class OrdersDetail {
 
     public void setPrice(double price) {
         if (price < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo");
+            throw new IllegalArgumentException("Price cannot be negative.");
         }
         this.price = price;
     }

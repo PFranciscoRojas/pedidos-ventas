@@ -11,14 +11,12 @@ public class ProductMapper {
         if (product == null) {
             return null;
         }
-
         ProductDTO dto = new ProductDTO();
-        dto.setProductoId(product.getProductId().intValue());
-        dto.setNombre(product.getName() != null ? product.getName() : "Sin Nombre");
-        dto.setDescripcion(product.getDescription() != null ? product.getDescription() : "Sin Descripción");
-        dto.setPrecio(product.getPrice());
+        dto.setProductId(product.getProductId());
+        dto.setName(product.getName());
+        dto.setDescription(product.getDescription());
+        dto.setPrice(product.getPrice());
         dto.setStock(product.getStock());
-
         return dto;
     }
 
@@ -26,14 +24,12 @@ public class ProductMapper {
         if (dto == null) {
             return null;
         }
-
         Product product = new Product();
-        product.setProductId((long) dto.getProductoId());
-        product.setName(dto.getNombre());
-        product.setDescription(dto.getDescripcion());
-        product.setPrice(dto.getPrecio());
+        product.setProductId(dto.getProductId());
+        product.setName(dto.getName());
+        product.setDescription(dto.getDescription());
+        product.setPrice(dto.getPrice());
         product.setStock(dto.getStock());
-
         return product;
     }
 }

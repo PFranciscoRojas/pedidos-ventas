@@ -12,11 +12,11 @@ public class CustomerMapper {
             return null;
         }
         CustomerDTO dto = new CustomerDTO();
-        dto.setCustomerId(customer.getCustomerId().intValue());
+        dto.setCustomerId(customer.getCustomerId());
         dto.setName(customer.getName());
         dto.setEmail(customer.getEmail());
-        dto.setTelefono(customer.getTelefono());
-        dto.setDireccion(customer.getDireccion());
+        dto.setPhone(customer.getPhone());
+        dto.setAddress(customer.getAddress());
         return dto;
     }
 
@@ -25,11 +25,11 @@ public class CustomerMapper {
             return null;
         }
         Customer customer = new Customer();
-        customer.setCustomerId((long) dto.getCustomerId());
+        customer.setCustomerId(dto.getCustomerId());
         customer.setName(dto.getName());
         customer.setEmail(dto.getEmail());
-        customer.setTelefono(dto.getTelefono());
-        customer.setDireccion(dto.getDireccion());
+        customer.setPhone(dto.getPhone());
+        customer.setAddress(dto.getAddress());
         return customer;
     }
 }

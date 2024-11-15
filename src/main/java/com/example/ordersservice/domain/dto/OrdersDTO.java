@@ -4,59 +4,59 @@ import java.util.Date;
 import java.util.List;
 
 public class OrdersDTO {
-    private int pedidoId;
-    private int clienteId;
-    private Date fecha;
-    private String estado;
-    private double total;
-    private List<OrdersDetailDTO> detalles;
+    private Long orderId;
+    private Long customerId;
+    private Date orderDate;
+    private String status;
+    private double totalAmount;
+    private List<OrdersDetailDTO> orderDetails;
 
-    // Getters y Setters
-    public int getPedidoId() {
-        return pedidoId;
+    // Getters and Setters
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setPedidoId(int pedidoId) {
-        this.pedidoId = pedidoId;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    public int getClienteId() {
-        return clienteId;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setClienteId(int clienteId) {
-        this.clienteId = clienteId;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getOrderDate() {
+        return orderDate;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setOrderDate(Date orderDate) {
+        this.orderDate = orderDate;
     }
 
-    public String getEstado() {
-        return estado;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEstado(String estado) {
-        this.estado = estado;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public double getTotal() {
-        return total;
+    public double getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setTotal(double total) {
-        this.total = total;
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
-    public List<OrdersDetailDTO> getDetalles() {
-        return detalles;
+    public List<OrdersDetailDTO> getOrderDetails() {
+        return orderDetails;
     }
 
-    public void setDetalles(List<OrdersDetailDTO> detalles) {
-        this.detalles = detalles;
+    public void setOrderDetails(List<OrdersDetailDTO> orderDetails) {
+        this.orderDetails = orderDetails;
     }
 }
