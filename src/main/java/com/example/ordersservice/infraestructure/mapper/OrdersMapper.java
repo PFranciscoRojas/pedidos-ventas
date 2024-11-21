@@ -21,15 +21,17 @@ public class OrdersMapper {
                 order.getTotalAmount(),
                 order.getOrderDetails().stream()
                         .map(detail -> new ProductDTO(
+                                detail.getProduct().getProductId(),
                                 detail.getProduct().getName(),
-                                detail.getProduct().getDescription()
+                                detail.getProduct().getDescription(),
+                                detail.getProduct().getPrice(),
+                                detail.getProduct().getStock()
                         ))
                         .collect(Collectors.toList())
         );
     }
 
     public Orders toEntity(OrdersDTO ordersDTO, Customer customer) {
-        if (ordersDTO == null) return null;
         Orders order = new Orders();
         order.setOrderId(ordersDTO.getOrderId());
         order.setCustomer(customer);

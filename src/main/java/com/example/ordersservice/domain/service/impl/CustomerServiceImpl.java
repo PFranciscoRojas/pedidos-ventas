@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -36,13 +35,13 @@ public class CustomerServiceImpl implements CustomerService {
     public List<CustomerDTO> getAllCustomers() {
         return customerRepository.findAll().stream()
                 .map(customerMapper::toDTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Override
     public CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO) {
         Customer customer = customerMapper.toEntity(customerDTO);
-        customer.setCustomerId(id); // Asegúrate de asignar el ID
+        customer.setCustomerId(id);
         return customerMapper.toDTO(customerRepository.save(customer));
     }
 

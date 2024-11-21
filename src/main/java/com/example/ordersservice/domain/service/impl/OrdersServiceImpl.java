@@ -1,12 +1,12 @@
 package com.example.ordersservice.domain.service.impl;
 
 import com.example.ordersservice.domain.dto.OrdersDTO;
-import com.example.ordersservice.domain.repository.OrdersRepositoryInterface;
 import com.example.ordersservice.domain.service.OrdersService;
 import com.example.ordersservice.infraestructure.entity.Customer;
 import com.example.ordersservice.infraestructure.entity.Orders;
 import com.example.ordersservice.infraestructure.mapper.OrdersMapper;
 import com.example.ordersservice.infraestructure.repository.CustomerRepository;
+import com.example.ordersservice.infraestructure.repository.OrdersRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,54 +17,46 @@ import java.util.Optional;
 public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
-    private OrdersRepositoryInterface ordersRepository;
+    private OrdersRepository ordersRepository;
 
     @Autowired
     private CustomerRepository customerRepository;
 
     @Autowired
-    private OrdersMapper ordersMapper;
+    private OrdersMapper ordersMapper; // Asegúrate de que OrdersMapper esté correctamente definido
 
     @Override
     public Orders createOrder(Orders order) {
+        if (order == null || order.getCustomer() == null || order.getCustomer().getCustomerId() == null) {
+            throw new IllegalArgumentException("Invalid order or customer details");
+        }
+
         Customer customer = customerRepository.findById(order.getCustomer().getCustomerId())
                 .orElseThrow(() -> new IllegalArgumentException("Customer not found"));
-        OrdersDTO orderDTO = ordersMapper.toDTO(order);
-        OrdersDTO savedOrderDTO = ordersRepository.saveOrder(orderDTO);
-        return ordersMapper.toEntity(savedOrderDTO, customer);
+
+        order.setCustomer(customer);
+        return ordersRepository.saveOrder(order);
     }
 
     @Override
     public Optional<Orders> getOrderById(Long id) {
-        return ordersRepository.getOrderById(id)
-                .map(orderDTO -> {
-                    Customer customer = customerRepository.findById(orderDTO.getCustomerId())
-                            .orElse(null);
-                    return ordersMapper.toEntity(orderDTO, customer);
-                });
+        return ordersRepository.getOrderById(id);
     }
 
     @Override
     public List<Orders> listOrders(Long customerId, String status) {
         return ordersRepository.getAllOrders().stream()
-                .map(orderDTO -> {
-                    Customer customer = customerRepository.findById(orderDTO.getCustomerId())
-                            .orElse(null);
-                    return ordersMapper.toEntity(orderDTO, customer);
-                })
+                .filter(order -> customerId == null || order.getCustomer().getCustomerId().equals(customerId))
+                .filter(order -> status == null || order.getStatus().equalsIgnoreCase(status))
                 .toList();
     }
 
     @Override
     public Orders updateOrderStatus(Long id, String status) {
-        Orders order = getOrderById(id)
+        Orders order = ordersRepository.getOrderById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Order not found"));
         order.setStatus(status);
-
-        OrdersDTO orderDTO = ordersMapper.toDTO(order);
-        OrdersDTO updatedOrderDTO = ordersRepository.saveOrder(orderDTO);
-
-        return ordersMapper.toEntity(updatedOrderDTO, order.getCustomer());
+        return ordersRepository.saveOrder(order);
     }
 
     @Override
@@ -74,6 +66,8 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<OrdersDTO> getAllOrders() {
-        return ordersRepository.getAllOrders();
+        return ordersRepository.getAllOrders().stream()
+                .map(ordersMapper::toDTO)
+                .toList();
     }
 }

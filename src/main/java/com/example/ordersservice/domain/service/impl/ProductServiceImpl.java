@@ -1,9 +1,8 @@
 package com.example.ordersservice.domain.service.impl;
 
-import com.example.ordersservice.domain.repository.ProductRepositoryInterface;
 import com.example.ordersservice.domain.service.ProductService;
 import com.example.ordersservice.infraestructure.entity.Product;
-import com.example.ordersservice.infraestructure.mapper.ProductMapper;
+import com.example.ordersservice.infraestructure.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,34 +13,29 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
-    private ProductRepositoryInterface productRepository;
-
-    @Autowired
-    private ProductMapper productMapper;
+    private ProductRepository productRepository;
 
     @Override
     public Product addProduct(Product product) {
-        return productMapper.toEntity(productRepository.saveProduct(productMapper.toDTO(product)));
+        return productRepository.saveProduct(product);
     }
 
     @Override
     public Optional<Product> getProductById(Long id) {
-        return productRepository.getProductById(id).map(productMapper::toEntity);
+        return productRepository.getProductById(id);
     }
 
     @Override
     public List<Product> listProducts() {
-        return productRepository.getAllProducts().stream()
-                .map(productMapper::toEntity)
-                .toList();
+        return productRepository.getAllProducts();
     }
 
     @Override
     public Product updateProductStock(Long id, int stock) {
-        Product product = getProductById(id)
+        Product product = productRepository.getProductById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
         product.setStock(stock);
-        return productMapper.toEntity(productRepository.saveProduct(productMapper.toDTO(product)));
+        return productRepository.saveProduct(product);
     }
 
     @Override

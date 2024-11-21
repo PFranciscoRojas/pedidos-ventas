@@ -1,17 +1,13 @@
 package com.example.ordersservice.domain.repository;
 
-import com.example.ordersservice.domain.dto.OrdersDTO;
+import com.example.ordersservice.infraestructure.entity.Orders;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface OrdersRepositoryInterface {
-
-    OrdersDTO saveOrder(OrdersDTO ordersDTO);
-
-    Optional<OrdersDTO> getOrderById(Long id);
-
-    List<OrdersDTO> getAllOrders();
-
+    List<Orders> getAllOrders();
+    Optional<Orders> getOrderById(Long id);
+    Orders saveOrder(Orders order); // Acepta y devuelve Orders (no DTO)
     void deleteOrder(Long id);
 }
