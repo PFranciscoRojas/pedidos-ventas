@@ -3,6 +3,7 @@ package com.example.ordersservice.controller;
 import com.example.ordersservice.domain.dto.ProductDTO;
 import com.example.ordersservice.domain.service.ProductService;
 import com.example.ordersservice.infraestructure.mappers.ProductMapper;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +21,7 @@ public class ProductController {
     private ProductMapper productMapper;
 
     @PostMapping
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody ProductDTO productDTO) {
         var savedProduct = productService.addProduct(productMapper.toEntity(productDTO));
         return ResponseEntity.ok(productMapper.toDTO(savedProduct));
     }

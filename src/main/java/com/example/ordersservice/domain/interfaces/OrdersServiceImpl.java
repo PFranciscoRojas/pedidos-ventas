@@ -20,6 +20,9 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public Orders createOrder(Orders order) {
+        if (order.getOrderDetails() != null) {
+            order.getOrderDetails().forEach(detail -> detail.setOrder(order));
+        }
         order.setStatus("PENDING");
         return ordersCrudRepository.save(order);
     }
@@ -33,7 +36,6 @@ public class OrdersServiceImpl implements OrdersService {
     public List<Orders> listOrders(Long customerId, String status) {
         if (customerId != null) {
             return ordersCrudRepository.findByCustomer_CustomerId(customerId);
-
         } else if (status != null) {
             return ordersCrudRepository.findByStatus(status);
         }

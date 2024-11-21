@@ -18,15 +18,17 @@ public class OrdersMapper {
             return null;
         }
         return new OrdersDTO(
-                order.getOrderId(),
-                order.getCustomer().getCustomerId(),
-                order.getOrderDate(),
-                order.getStatus(),
-                order.getTotalAmount(),
-                order.getOrderDetails()
-                     .stream()
-                     .map(ordersDetailMapper::toDTO)
-                     .collect(Collectors.toList())
+            order.getOrderId(),
+            order.getCustomer().getCustomerId(),
+            order.getOrderDate(), // Cambiado a LocalDateTime
+            order.getStatus(),
+            order.getTotalAmount(),
+            order.getOrderDetails() != null
+                ? order.getOrderDetails()
+                      .stream()
+                      .map(ordersDetailMapper::toDTO)
+                      .collect(Collectors.toList())
+                : null
         );
     }
 
@@ -36,14 +38,9 @@ public class OrdersMapper {
         }
         Orders order = new Orders();
         order.setOrderId(dto.getOrderId());
-        order.setOrderDate(dto.getOrderDate());
+        order.setOrderDate(dto.getOrderDate()); // Cambiado para aceptar LocalDateTime
         order.setStatus(dto.getStatus());
         order.setTotalAmount(dto.getTotalAmount());
-        // Nota: Se necesita el Customer como entidad completa antes de mapear.
-        order.setOrderDetails(dto.getOrderDetails()
-                                 .stream()
-                                 .map(detailDto -> ordersDetailMapper.toEntity(detailDto, order))
-                                 .collect(Collectors.toList()));
         return order;
     }
 }

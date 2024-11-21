@@ -14,34 +14,14 @@ public class OrdersDetailMapper {
             return null;
         }
         return new OrdersDetailDTO(
-                detail.getDetailId(),
-                detail.getOrder().getOrderId(),
-                detail.getProduct().getProductId(),
-                detail.getProduct().getName(),
-                detail.getProduct().getDescription(),
-                detail.getQuantity(),
-                detail.getPrice()
+            detail.getDetailId(),
+            detail.getOrder().getOrderId(),
+            detail.getProduct().getProductId(),
+            detail.getProduct().getName(),
+            detail.getProduct().getDescription(),
+            detail.getQuantity(),
+            detail.getPrice()
         );
-    }
-
-    public OrdersDetail toEntity(OrdersDetailDTO dto, Orders order) {
-        if (dto == null || order == null) {
-            return null;
-        }
-
-        OrdersDetail detail = new OrdersDetail();
-        detail.setDetailId(dto.getDetailId());
-        detail.setQuantity(dto.getQuantity());
-        detail.setPrice(dto.getPrice());
-        detail.setOrder(order);
-
-        if (dto.getProductId() != null) {
-            Product product = new Product();
-            product.setProductId(dto.getProductId());
-            detail.setProduct(product);
-        }
-
-        return detail;
     }
 
     public OrdersDetail toEntity(OrdersDetailDTO dto, Orders order, Product product) {
@@ -49,8 +29,12 @@ public class OrdersDetailMapper {
             return null;
         }
 
-        OrdersDetail detail = toEntity(dto, order);
+        OrdersDetail detail = new OrdersDetail();
+        detail.setDetailId(dto.getDetailId());
+        detail.setOrder(order);
         detail.setProduct(product);
+        detail.setQuantity(dto.getQuantity());
+        detail.setPrice(dto.getPrice());
         return detail;
     }
 }

@@ -1,18 +1,18 @@
 package com.example.ordersservice.domain.dto;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class OrdersDTO {
     private Long orderId;
     private Long customerId;
-    private Date orderDate;
+    private LocalDateTime orderDate; // Cambiado a LocalDateTime
     private String status;
     private double totalAmount;
     private List<OrdersDetailDTO> orderDetails;
 
     // Constructor con parámetros
-    public OrdersDTO(Long orderId, Long customerId, Date orderDate, String status, double totalAmount, List<OrdersDetailDTO> orderDetails) {
+    public OrdersDTO(Long orderId, Long customerId, LocalDateTime orderDate, String status, double totalAmount, List<OrdersDetailDTO> orderDetails) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -38,11 +38,11 @@ public class OrdersDTO {
         this.customerId = customerId;
     }
 
-    public Date getOrderDate() {
+    public LocalDateTime getOrderDate() {
         return orderDate;
     }
 
-    public void setOrderDate(Date orderDate) {
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
     }
 

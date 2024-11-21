@@ -2,6 +2,7 @@ package com.example.ordersservice.controller;
 
 import com.example.ordersservice.domain.dto.OrdersDTO;
 import com.example.ordersservice.domain.service.OrdersService;
+import com.example.ordersservice.domain.service.CustomerService;
 import com.example.ordersservice.infraestructure.mappers.OrdersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +20,22 @@ public class OrdersController {
     @Autowired
     private OrdersMapper ordersMapper;
 
+    @Autowired
+    private CustomerService customerService;
+
     @PostMapping
     public ResponseEntity<OrdersDTO> createOrder(@RequestBody OrdersDTO ordersDTO) {
-        var savedOrder = ordersService.createOrder(ordersMapper.toEntity(ordersDTO));
+        if (ordersDTO.getCustomerId() == null) {
+            throw new IllegalArgumentException("CustomerId is required");
+        }
+
+        var customer = customerService.getCustomerById(ordersDTO.getCustomerId())
+                .orElseThrow(() -> new IllegalArgumentException("Customer not found with ID: " + ordersDTO.getCustomerId()));
+
+        var order = ordersMapper.toEntity(ordersDTO);
+        order.setCustomer(customer);
+
+        var savedOrder = ordersService.createOrder(order);
         return ResponseEntity.ok(ordersMapper.toDTO(savedOrder));
     }
 

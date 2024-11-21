@@ -1,7 +1,8 @@
 package com.example.ordersservice.infraestructure.entity;
 
 import jakarta.persistence.*;
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -16,19 +17,18 @@ public class Orders {
     private Customer customer;
 
     @Column(nullable = false)
-    private double totalAmount;
+    private LocalDateTime orderDate;
 
     @Column(nullable = false)
     private String status;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = false)
-    private Date orderDate;
+    private double totalAmount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrdersDetail> orderDetails;
+    private List<OrdersDetail> orderDetails = new ArrayList<>(); // Inicializar como lista vacía
 
-    // Getters and Setters
+    // Getters y Setters
     public Long getOrderId() {
         return orderId;
     }
@@ -45,12 +45,12 @@ public class Orders {
         this.customer = customer;
     }
 
-    public double getTotalAmount() {
-        return totalAmount;
+    public LocalDateTime getOrderDate() {
+        return orderDate;
     }
 
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
     }
 
     public String getStatus() {
@@ -61,12 +61,12 @@ public class Orders {
         this.status = status;
     }
 
-    public Date getOrderDate() {
-        return orderDate;
+    public double getTotalAmount() {
+        return totalAmount;
     }
 
-    public void setOrderDate(Date orderDate) {
-        this.orderDate = orderDate;
+    public void setTotalAmount(double totalAmount) {
+        this.totalAmount = totalAmount;
     }
 
     public List<OrdersDetail> getOrderDetails() {
@@ -74,6 +74,9 @@ public class Orders {
     }
 
     public void setOrderDetails(List<OrdersDetail> orderDetails) {
-        this.orderDetails = orderDetails;
+        this.orderDetails.clear();
+        if (orderDetails != null) {
+            this.orderDetails.addAll(orderDetails);
+        }
     }
 }
