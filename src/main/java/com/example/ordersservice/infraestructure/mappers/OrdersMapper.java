@@ -17,17 +17,17 @@ public class OrdersMapper {
         if (order == null) {
             return null;
         }
-        OrdersDTO dto = new OrdersDTO();
-        dto.setOrderId(order.getOrderId());
-        dto.setCustomerId(order.getCustomerId());
-        dto.setOrderDate(order.getOrderDate());
-        dto.setStatus(order.getStatus());
-        dto.setTotalAmount(order.getTotalAmount());
-        dto.setOrderDetails(order.getOrderDetails()
-                                 .stream()
-                                 .map(ordersDetailMapper::toDTO)
-                                 .collect(Collectors.toList()));
-        return dto;
+        return new OrdersDTO(
+                order.getOrderId(),
+                order.getCustomer().getCustomerId(),
+                order.getOrderDate(),
+                order.getStatus(),
+                order.getTotalAmount(),
+                order.getOrderDetails()
+                     .stream()
+                     .map(ordersDetailMapper::toDTO)
+                     .collect(Collectors.toList())
+        );
     }
 
     public Orders toEntity(OrdersDTO dto) {
@@ -36,10 +36,10 @@ public class OrdersMapper {
         }
         Orders order = new Orders();
         order.setOrderId(dto.getOrderId());
-        order.setCustomerId(dto.getCustomerId());
         order.setOrderDate(dto.getOrderDate());
         order.setStatus(dto.getStatus());
         order.setTotalAmount(dto.getTotalAmount());
+        // Nota: Se necesita el Customer como entidad completa antes de mapear.
         order.setOrderDetails(dto.getOrderDetails()
                                  .stream()
                                  .map(detailDto -> ordersDetailMapper.toEntity(detailDto, order))

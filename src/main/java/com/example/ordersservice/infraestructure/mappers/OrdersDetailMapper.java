@@ -13,15 +13,15 @@ public class OrdersDetailMapper {
         if (detail == null) {
             return null;
         }
-        OrdersDetailDTO dto = new OrdersDetailDTO();
-        dto.setDetailId(detail.getDetailId());
-        dto.setOrderId(detail.getOrder().getOrderId());
-        dto.setProductId(detail.getProduct().getProductId());
-        dto.setProductName(detail.getProduct().getName()); // Asignar el nombre del producto
-        dto.setProductDescription(detail.getProduct().getDescription()); // Asignar la descripción del producto
-        dto.setQuantity(detail.getQuantity());
-        dto.setPrice(detail.getPrice());
-        return dto;
+        return new OrdersDetailDTO(
+                detail.getDetailId(),
+                detail.getOrder().getOrderId(),
+                detail.getProduct().getProductId(),
+                detail.getProduct().getName(),
+                detail.getProduct().getDescription(),
+                detail.getQuantity(),
+                detail.getPrice()
+        );
     }
 
     public OrdersDetail toEntity(OrdersDetailDTO dto, Orders order) {

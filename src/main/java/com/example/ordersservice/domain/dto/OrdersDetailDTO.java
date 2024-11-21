@@ -4,10 +4,21 @@ public class OrdersDetailDTO {
     private Long detailId;
     private Long orderId;
     private Long productId;
-    private String productName; // Agregado
-    private String productDescription; // Agregado
+    private String productName;
+    private String productDescription;
     private int quantity;
     private double price;
+
+    // Constructor con parámetros
+    public OrdersDetailDTO(Long detailId, Long orderId, Long productId, String productName, String productDescription, int quantity, double price) {
+        this.detailId = detailId;
+        this.orderId = orderId;
+        this.productId = productId;
+        this.productName = productName;
+        this.productDescription = productDescription;
+        this.quantity = quantity;
+        this.price = price;
+    }
 
     // Getters y Setters
     public Long getDetailId() {

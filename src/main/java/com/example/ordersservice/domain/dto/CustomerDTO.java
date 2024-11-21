@@ -7,7 +7,16 @@ public class CustomerDTO {
     private String phone;
     private String address;
 
-    // Getters and Setters
+    // Constructor con parámetros
+    public CustomerDTO(Long customerId, String name, String email, String phone, String address) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    // Getters y Setters
     public Long getCustomerId() {
         return customerId;
     }

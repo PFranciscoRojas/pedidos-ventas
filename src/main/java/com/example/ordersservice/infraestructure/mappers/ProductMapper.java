@@ -11,13 +11,13 @@ public class ProductMapper {
         if (product == null) {
             return null;
         }
-        ProductDTO dto = new ProductDTO();
-        dto.setProductId(product.getProductId());
-        dto.setName(product.getName());
-        dto.setDescription(product.getDescription());
-        dto.setPrice(product.getPrice());
-        dto.setStock(product.getStock());
-        return dto;
+        return new ProductDTO(
+                product.getProductId(),
+                product.getName(),
+                product.getDescription(),
+                product.getPrice(),
+                product.getStock()
+        );
     }
 
     public Product toEntity(ProductDTO dto) {

@@ -11,7 +11,17 @@ public class OrdersDTO {
     private double totalAmount;
     private List<OrdersDetailDTO> orderDetails;
 
-    // Getters and Setters
+    // Constructor con parámetros
+    public OrdersDTO(Long orderId, Long customerId, Date orderDate, String status, double totalAmount, List<OrdersDetailDTO> orderDetails) {
+        this.orderId = orderId;
+        this.customerId = customerId;
+        this.orderDate = orderDate;
+        this.status = status;
+        this.totalAmount = totalAmount;
+        this.orderDetails = orderDetails;
+    }
+
+    // Getters y Setters
     public Long getOrderId() {
         return orderId;
     }

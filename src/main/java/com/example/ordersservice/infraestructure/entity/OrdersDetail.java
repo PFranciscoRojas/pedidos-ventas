@@ -5,20 +5,22 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "order_details")
 public class OrdersDetail {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long detailId;
 
     @ManyToOne
-    @JoinColumn(name = "order_id")
+    @JoinColumn(name = "order_id", nullable = false)
     private Orders order;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false)
     private double price;
 
     // Getters and Setters

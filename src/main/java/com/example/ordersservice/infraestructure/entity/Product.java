@@ -5,14 +5,19 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "products")
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
+    @Column(nullable = false, unique = true)
     private String name;
+
     private String description;
+
+    @Column(nullable = false)
     private double price;
+
+    @Column(nullable = false)
     private int stock;
 
     // Getters and Setters
@@ -45,6 +50,9 @@ public class Product {
     }
 
     public void setPrice(double price) {
+        if (price < 0) {
+            throw new IllegalArgumentException("Price cannot be negative.");
+        }
         this.price = price;
     }
 
@@ -53,6 +61,9 @@ public class Product {
     }
 
     public void setStock(int stock) {
+        if (stock < 0) {
+            throw new IllegalArgumentException("Stock cannot be negative.");
+        }
         this.stock = stock;
     }
 }

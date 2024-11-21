@@ -7,19 +7,25 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Orders {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
 
-    private Long customerId;
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @Column(nullable = false)
     private double totalAmount;
+
+    @Column(nullable = false)
     private String status;
 
-    @Temporal(TemporalType.DATE)
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
     private Date orderDate;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrdersDetail> orderDetails;
 
     // Getters and Setters
@@ -31,12 +37,12 @@ public class Orders {
         this.orderId = orderId;
     }
 
-    public Long getCustomerId() {
-        return customerId;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setCustomerId(Long customerId) {
-        this.customerId = customerId;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
     public double getTotalAmount() {

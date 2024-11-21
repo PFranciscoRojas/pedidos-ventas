@@ -7,7 +7,18 @@ public class ProductDTO {
     private double price;
     private int stock;
 
-    // Getters and Setters
+
+
+    // Constructor con parámetros
+    public ProductDTO(Long productId, String name, String description, double price, int stock) {
+        this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+    }
+
+    // Getters y Setters
     public Long getProductId() {
         return productId;
     }

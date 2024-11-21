@@ -5,14 +5,19 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "customers")
 public class Customer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long customerId;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String phone;
+
     private String address;
 
     // Getters and Setters
