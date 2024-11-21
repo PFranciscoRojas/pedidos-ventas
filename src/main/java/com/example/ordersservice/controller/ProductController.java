@@ -2,8 +2,7 @@ package com.example.ordersservice.controller;
 
 import com.example.ordersservice.domain.dto.ProductDTO;
 import com.example.ordersservice.domain.service.ProductService;
-import com.example.ordersservice.infraestructure.mappers.ProductMapper;
-import jakarta.validation.Valid;
+import com.example.ordersservice.infraestructure.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,34 +19,38 @@ public class ProductController {
     @Autowired
     private ProductMapper productMapper;
 
-    @PostMapping
-    public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody ProductDTO productDTO) {
-        var savedProduct = productService.addProduct(productMapper.toEntity(productDTO));
-        return ResponseEntity.ok(productMapper.toDTO(savedProduct));
+    @GetMapping
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        return ResponseEntity.ok(
+                productService.listProducts().stream()
+                        .map(productMapper::toDTO)
+                        .toList()
+        );
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         return productService.getProductById(id)
-                .map(product -> ResponseEntity.ok(productMapper.toDTO(product)))
+                .map(productMapper::toDTO)
+                .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping
-    public ResponseEntity<List<ProductDTO>> listProducts() {
-        var products = productService.listProducts();
-        return ResponseEntity.ok(products.stream().map(productMapper::toDTO).toList());
+    @PostMapping
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO) {
+        var savedProduct = productService.addProduct(productMapper.toEntity(productDTO));
+        return ResponseEntity.ok(productMapper.toDTO(savedProduct));
     }
 
     @PutMapping("/{id}/stock")
-    public ResponseEntity<ProductDTO> updateProductStock(@PathVariable Long id, @RequestBody int newStock) {
-        var updatedProduct = productService.updateProductStock(id, newStock);
+    public ResponseEntity<ProductDTO> updateProductStock(@PathVariable Long id, @RequestBody int stock) {
+        var updatedProduct = productService.updateProductStock(id, stock);
         return ResponseEntity.ok(productMapper.toDTO(updatedProduct));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
-        return ResponseEntity.ok("Product deleted successfully.");
+        return ResponseEntity.noContent().build();
     }
 }

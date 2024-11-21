@@ -1,5 +1,6 @@
 package com.example.ordersservice.domain.service;
 
+import com.example.ordersservice.domain.dto.OrdersDTO;
 import com.example.ordersservice.infraestructure.entity.Orders;
 
 import java.util.List;
@@ -15,4 +16,6 @@ public interface OrdersService {
     Orders updateOrderStatus(Long id, String status);
 
     void deleteOrder(Long id);
+
+    List<OrdersDTO> getAllOrders();
 }

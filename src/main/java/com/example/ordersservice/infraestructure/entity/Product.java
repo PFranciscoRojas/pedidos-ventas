@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "products")
 public class Product {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
@@ -20,7 +21,7 @@ public class Product {
     @Column(nullable = false)
     private int stock;
 
-    // Getters and Setters
+    // Getters y Setters
     public Long getProductId() {
         return productId;
     }

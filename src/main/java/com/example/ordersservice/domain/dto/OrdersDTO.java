@@ -6,13 +6,13 @@ import java.util.List;
 public class OrdersDTO {
     private Long orderId;
     private Long customerId;
-    private LocalDateTime orderDate; // Cambiado a LocalDateTime
+    private LocalDateTime orderDate;
     private String status;
     private double totalAmount;
-    private List<OrdersDetailDTO> orderDetails;
+    private List<ProductDTO> orderDetails;
 
     // Constructor con parámetros
-    public OrdersDTO(Long orderId, Long customerId, LocalDateTime orderDate, String status, double totalAmount, List<OrdersDetailDTO> orderDetails) {
+    public OrdersDTO(Long orderId, Long customerId, LocalDateTime orderDate, String status, double totalAmount, List<ProductDTO> orderDetails) {
         this.orderId = orderId;
         this.customerId = customerId;
         this.orderDate = orderDate;
@@ -62,11 +62,11 @@ public class OrdersDTO {
         this.totalAmount = totalAmount;
     }
 
-    public List<OrdersDetailDTO> getOrderDetails() {
+    public List<ProductDTO> getOrderDetails() {
         return orderDetails;
     }
 
-    public void setOrderDetails(List<OrdersDetailDTO> orderDetails) {
+    public void setOrderDetails(List<ProductDTO> orderDetails) {
         this.orderDetails = orderDetails;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.ordersservice.infraestructure.mappers;
+package com.example.ordersservice.infraestructure.mapper;
 
 import com.example.ordersservice.domain.dto.CustomerDTO;
 import com.example.ordersservice.infraestructure.entity.Customer;
@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class CustomerMapper {
+
+    // Convierte un Customer a CustomerDTO
     public CustomerDTO toDTO(Customer customer) {
-        if (customer == null) {
-            return null;
-        }
+        if (customer == null) return null;
         return new CustomerDTO(
                 customer.getCustomerId(),
                 customer.getName(),
@@ -19,16 +19,15 @@ public class CustomerMapper {
         );
     }
 
-    public Customer toEntity(CustomerDTO dto) {
-        if (dto == null) {
-            return null;
-        }
+    // Convierte un CustomerDTO a Customer
+    public Customer toEntity(CustomerDTO customerDTO) {
+        if (customerDTO == null) return null;
         Customer customer = new Customer();
-        customer.setCustomerId(dto.getCustomerId());
-        customer.setName(dto.getName());
-        customer.setEmail(dto.getEmail());
-        customer.setPhone(dto.getPhone());
-        customer.setAddress(dto.getAddress());
+        customer.setCustomerId(customerDTO.getCustomerId());
+        customer.setName(customerDTO.getName());
+        customer.setEmail(customerDTO.getEmail());
+        customer.setPhone(customerDTO.getPhone());
+        customer.setAddress(customerDTO.getAddress());
         return customer;
     }
 }

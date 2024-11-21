@@ -9,7 +9,6 @@ public class OrdersDetailDTO {
     private int quantity;
     private double price;
 
-    // Constructor con parámetros
     public OrdersDetailDTO(Long detailId, Long orderId, Long productId, String productName, String productDescription, int quantity, double price) {
         this.detailId = detailId;
         this.orderId = orderId;

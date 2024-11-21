@@ -1,18 +1,18 @@
 package com.example.ordersservice.domain.service;
 
-import com.example.ordersservice.infraestructure.entity.Customer;
+import com.example.ordersservice.domain.dto.CustomerDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomerService {
-    Customer createCustomer(Customer customer);
+    CustomerDTO createCustomer(CustomerDTO customerDTO);
 
-    Optional<Customer> getCustomerById(Long id);
+    Optional<CustomerDTO> getCustomerById(Long id);
 
-    List<Customer> getAllCustomers();
+    List<CustomerDTO> getAllCustomers();
 
-    Customer updateCustomer(Long id, Customer customer);
+    CustomerDTO updateCustomer(Long id, CustomerDTO customerDTO);
 
     void deleteCustomer(Long id);
 }

@@ -1,6 +1,7 @@
 package com.example.ordersservice.infraestructure.entity;
 
 import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "orders")
 public class Orders {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long orderId;
@@ -26,9 +28,9 @@ public class Orders {
     private double totalAmount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrdersDetail> orderDetails = new ArrayList<>(); // Inicializar como lista vacía
+    private List<OrdersDetail> orderDetails = new ArrayList<>();
 
-    // Getters y Setters
+    // Getters and Setters
     public Long getOrderId() {
         return orderId;
     }
@@ -74,9 +76,6 @@ public class Orders {
     }
 
     public void setOrderDetails(List<OrdersDetail> orderDetails) {
-        this.orderDetails.clear();
-        if (orderDetails != null) {
-            this.orderDetails.addAll(orderDetails);
-        }
+        this.orderDetails = orderDetails;
     }
 }

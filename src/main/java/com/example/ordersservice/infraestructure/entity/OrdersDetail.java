@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "order_details")
 public class OrdersDetail {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long detailId;
@@ -23,7 +24,7 @@ public class OrdersDetail {
     @Column(nullable = false)
     private double price;
 
-    // Getters and Setters
+    // Getters y Setters
     public Long getDetailId() {
         return detailId;
     }
@@ -53,9 +54,6 @@ public class OrdersDetail {
     }
 
     public void setQuantity(int quantity) {
-        if (quantity <= 0) {
-            throw new IllegalArgumentException("Quantity must be greater than zero.");
-        }
         this.quantity = quantity;
     }
 
@@ -64,9 +62,6 @@ public class OrdersDetail {
     }
 
     public void setPrice(double price) {
-        if (price < 0) {
-            throw new IllegalArgumentException("Price cannot be negative.");
-        }
         this.price = price;
     }
 }
