@@ -30,6 +30,9 @@ public class ProductDTO {
         this.stock = stock;
     }
 
+    public ProductDTO() {
+    }
+
     // Constructor simplificado para nombre y descripción
     public ProductDTO(String name, String description) {
         this.name = name;
