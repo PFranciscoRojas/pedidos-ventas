@@ -1,27 +1,22 @@
-package com.example.ordersservice.infraestructure.entity;
+package com.example.ordersservice.domain.dto;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "customers")
-public class Customer {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class CustomerDTO {
     private Long customerId;
-
-    @Column(nullable = false)
     private String name;
-
-    @Column(nullable = false, unique = true)
     private String email;
-
-    @Column(nullable = false)
     private String phone;
-
     private String address;
 
-    // Getters and Setters
+    // Constructor con parámetros
+    public CustomerDTO(Long customerId, String name, String email, String phone, String address) {
+        this.customerId = customerId;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+    }
+
+    // Getters y Setters
     public Long getCustomerId() {
         return customerId;
     }

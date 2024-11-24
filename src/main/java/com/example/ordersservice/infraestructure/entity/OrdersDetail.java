@@ -1,25 +1,27 @@
 package com.example.ordersservice.infraestructure.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 @Entity
-public class OrderDetail {
+@Table(name = "order_details")
+public class OrdersDetail {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long detailId;
-    
-    @ManyToOne
-    private Order order;
 
     @ManyToOne
+    @JoinColumn(name = "order_id", nullable = false)
+    private Orders order;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
+    @Column(nullable = false)
     private int quantity;
+
+    @Column(nullable = false)
     private double price;
 
     // Getters y Setters
@@ -31,11 +33,11 @@ public class OrderDetail {
         this.detailId = detailId;
     }
 
-    public Order getOrder() {
+    public Orders getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(Orders order) {
         this.order = order;
     }
 
@@ -52,9 +54,6 @@ public class OrderDetail {
     }
 
     public void setQuantity(int quantity) {
-        if (quantity <= 0) {
-            throw new IllegalArgumentException("La cantidad debe ser mayor que cero");
-        }
         this.quantity = quantity;
     }
 
@@ -63,9 +62,6 @@ public class OrderDetail {
     }
 
     public void setPrice(double price) {
-        if (price < 0) {
-            throw new IllegalArgumentException("El precio no puede ser negativo");
-        }
         this.price = price;
     }
 }
